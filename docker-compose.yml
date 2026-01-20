@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
@@ -7,26 +7,11 @@ services:
     restart: always
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_MULTIPLE_DATABASES: test,postgres
+      POSTGRES_PASSWORD: postgresR5
     ports:
-      - "5432:5432"
+      - "5434"
     networks:
       - mynetwork
-
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4:latest
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com  
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - "8080:80"
-    networks:
-      - mynetwork
-    depends_on:
-      - postgres
 
   redis:
     container_name: redis
@@ -40,14 +25,14 @@ services:
   nextjs-app:
     container_name: nextjs-app
     build:
-      context: ./server 
+      context: ./server
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
     environment:
       NEXT_PUBLIC_POSTGRES_HOST: pgdb
       NEXT_PUBLIC_POSTGRES_USER: postgres
-      NEXT_PUBLIC_POSTGRES_PASSWORD: postgres
+      NEXT_PUBLIC_POSTGRES_PASSWORD: postgresR5
       NEXT_PUBLIC_REDIS_HOST: redis
       NEXT_PUBLIC_REDIS_PORT: 6379
     depends_on:
@@ -56,8 +41,8 @@ services:
     networks:
       - mynetwork
     dns:
-      - 8.8.8.8   # Google's public DNS
-      - 1.1.1.1   # Cloudflare's public DNS
+      - 8.8.8.8 # Google's public DNS
+      - 1.1.1.1 # Cloudflare's public DNS
 
 volumes:
   postgres:
